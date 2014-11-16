@@ -1,0 +1,61 @@
+/* Compile: dot -Tpdf -o filename.pdf filename.gv */
+/* Force A4: pdfjam -o filename.pdf --landscape --a4paper filename.pdf */
+
+digraph D {
+	/* general settings */
+	graph [fontname="Latin Modern Mono", size="11.69,8.26"];
+	node  [fontname="Latin Modern Mono"];
+	edge [fontname="Latin Modern Mono"];
+	/* Hack for approximate A4 paper output */
+	ratio = fill;
+	size = "11.7,8.3";
+
+	/* CC Notice */
+	node [shape = record]
+	ccnotice [label="{DIFFERENTIALDIAGNOSE DARMROHR |cc-by-sa L. Sandig 2014\nhttp://lsandig.org}"];
+
+	/* criteria */	
+	node [shape=diamond];
+	/* c_crit [label = "Text here"]; */
+
+	c_epithel [label = "Epitheltyp?"];
+	c_tub_druesen [label = "»Tubuläre«\nDrüsen?"];
+	c_muk_druesen [label = "Muköse Drüsenpakete\nin Tela submucosa?"];
+	c_peyerplaques [label = "Peyer'sche\nPlaques?"];
+	c_belegzellen [label = "Belegzellen\n(eosinophil)?"];
+	c_gestreckte_druesen [label = "Drüsen gestreckt,\nnur 1 Anschnitt,\nsehr parallel?"];
+
+	/* organs */
+	node [shape=record];
+	/* o_organ [label="{Name |- fact\l- fact\l- fact\l}"]; */
+
+	o_oesophagus [label="{OESOPHAGUS|- Gll. oesophageales\l- oberes 1/3 Skelettmuskulatur\l- Adventitia\l- »Zellgrenzen«\l- ausgprägter Papillarkörper\l- Venenplexus\l- sternförmiges Lumen\l- Lam. musc. mucosae gebündelt\l}"];
+	o_colon [label="{COLON|- Krypten\l- Adventitia oder Serosa\l- Reichlich Lymphozyten\l  in Lamina propria\l- Längsmuskulatur = Taenien\l}"]; 
+	o_corpus [label="{CORPUS|- Neben/Beleg/Hauptzellen\l- Fibrae obliquae\l- Foveolae flach (1/3)\l- Keine Krypten/Zotten\l- Keine Becherzellen\l- Gll. gastricae unverzweigt\l- Serosa\l}"];
+	o_pylorus [label="{PYLORUS|- Verdickte Ringmuskulatur\l- tiefe Foveolae (2/3)\l- Lymphfollikel, Plamazellen\l- Gll. pyloricae (keine Becherzellen)\l- Gl. gastricae verzweigt, geknäuelt\l- Serosa\l}"];
+	o_duodenum [label="{DUODENUM|- Brunner'sche Drüsen\l- Bürstensaum\l- Adventitia\l- Plicae circulares, hohe Zotten\l  (Ausnahme: pylorusnah)\l}"];
+	o_ileum [label="{ILEUM|- Bürstensaum\l- niedrige Zotten\l- Peyer'sche Plaques\l  gegenüber Meso\l- Domes, M-Zellen\l- Serosa\l}"];
+	o_jejunum [label="{JEJUNUM|- Bürstensaum\l- Paneth-Zellen\l- Serosa\l- Ausschlussdiagnose!\l}"];
+
+	/* yes */
+	edge [ label="ja"];
+
+	c_tub_druesen -> c_gestreckte_druesen;
+	c_gestreckte_druesen -> o_colon;
+	c_muk_druesen -> o_duodenum;
+	c_peyerplaques -> o_ileum;
+	c_belegzellen -> o_corpus;
+
+	/* no */
+	edge [ label="nein"];
+	c_tub_druesen -> c_muk_druesen;
+	c_gestreckte_druesen -> c_belegzellen;
+	c_belegzellen -> o_pylorus;
+	c_muk_druesen -> c_peyerplaques;
+	c_peyerplaques -> o_jejunum;
+
+	/* other */
+	/* foo -> bar [label = "baz"]; */
+	c_epithel -> c_tub_druesen [label = "Säulen"];
+	c_epithel -> o_oesophagus [label = "mehrschichtig\nunverhornt\nplatt"];
+}

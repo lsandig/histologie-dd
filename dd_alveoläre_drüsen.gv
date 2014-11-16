@@ -1,0 +1,55 @@
+/* Compile: dot -Tpdf -o filename.pdf filename.gv */
+/* Force A4: pdfjam -o filename.pdf --landscape --a4paper filename.pdf */
+
+digraph D {
+	/* general settings */
+	graph [fontname="Latin Modern Mono", size="11.69,8.26"];
+	node  [fontname="Latin Modern Mono"];
+	edge [fontname="Latin Modern Mono"];
+	/* Hack for approximate A4 paper output */
+	ratio = fill;
+	size = "11.7,8.3";
+
+	/* CC Notice */
+	node [shape = record]
+	ccnotice [label="{DIFFERENTIALDIAGNOSE ALVEOLÄRE DRÜSEN|cc-by-sa L. Sandig 2014\nhttp://lsandig.org}"];
+
+	/* criteria */	
+	node [shape=diamond];
+	/* c_crit [label = "Text here"]; */
+	Muskulatur [label="Muskulatur nahe\nder Drüse?"];
+	Falten [label="Tunica muscularis mit\nPrimär-, Sekundär- und\nTertiärfalten?"]
+	Merkmal1 [label="Auffallendes\nMerkmal"];
+	Merkmal2 [label="Auffallendes\nMerkmal"];
+	Epithel [label="Profil\ndes Epithels"];
+
+	/* organs */
+	node [shape=record];
+	/* o_organ [label="{Name |- fact\l- fact\l- fact\l}"]; */
+	GlThyroidea [label="{Gl. thyroidea|- C-Zellen\l- keine Ausführungsgänge\l- BG-Kapsel\l- Blutkapillaren\l}"]
+	MammaLactans [label="{Mamma lactans|- wechselnd hohes Epithel\l- Milchtröpfchen\l- Ductus lactiferi\l- sehnenartiges BG\l}"]
+	GlVesiculosa [label="{Gl. vesiculosa|- Epithel 1- bis 2-reihig\l- Epithelbrücken/Drüsenkammern\l- Wandmuskulatur spiralförmig\l}"]
+	Prostata [label="{Prostata|- Epithel gewellt = iso bis 2RH\l- Kapsel aus glatter Muskulatur}"]
+	DuctuliEfferentes [label="{Ductuli efferentes|- Epithel iso. bis 2RH\l- Kinozilien und Microvilli\l- dünne Schicht Myofibroblasten\l}"]
+	DuctusEpididymidis [label="{Ductus epididymidis|- Epithel 2RH\l- Stereozilien\l- glatte Muskelschicht in Lamina propria\l}"]
+	
+	/* yes */
+	edge [ label="ja"];
+	Muskulatur -> Falten
+	Falten -> GlVesiculosa
+
+	/* no */
+	edge [ label="nein"];
+	Muskulatur -> Merkmal1
+	Falten -> Merkmal2
+
+
+	/* other */
+	/* foo -> bar [label = "baz"]; */
+	Merkmal1 -> GlThyroidea [label="kolloidgefüllte\nFollikel"]
+	Merkmal2 -> Prostata [label="fibromuskuläres\nStroma"]
+	Epithel -> DuctuliEfferentes [label="gewellt"]
+	Merkmal1 -> MammaLactans [label="große\nDrüsenlappen"]
+	Merkmal2 -> Epithel [label="Spermien\nim Lumen"]
+	Epithel -> DuctusEpididymidis [label="glatt"]
+}

@@ -1,0 +1,64 @@
+/* Compile: dot -Tpdf -o filename.pdf filename.gv */
+/* Force A4: pdfjam -o filename.pdf --landscape --a4paper filename.pdf */
+
+digraph D {
+	/* general settings */
+	graph [fontname="Latin Modern Mono"];/*, size="11.69,8.26"];*/
+	node  [fontname="Latin Modern Mono"];
+	edge [fontname="Latin Modern Mono"];
+	/* Hack for approximate A4 paper output */
+	ratio = fill;
+	size = "11.7,8.3";
+
+	/* CC Notice */
+	node [shape = record]
+	ccnotice [label="{DIFFERENTIALDIAGNOSE LYMPHATISCHE ORGANE|cc-by-sa L. Sandig 2014\nhttp://lsandig.org}"];
+
+	/* criteria */	
+	node [shape=diamond];
+	/* c_crit	[label = "Text here"]; */
+	c_follikel 	[label = "Lymphfollikel?"];
+	c_kapsel 	[label = "BG-Kapsel/Halbkapsel?"];
+	c_epithelDa 	[label = "Natürliche Epitheloberfläche?"];
+	c_rindeMark 	[label = "Gliederung in Rinde und Mark?"];
+	c_epitheltyp	[label = "Epitheltyp?"];
+	c_krypten	[label = "Krypten?"];
+
+	/* organs */
+	node [shape=record];
+	/* o_organ [label="{Name |- fact\l- fact\l- fact\l}"]; */
+	o_thymus   	[label="{THYMUS|- BG in Septen, Läppchengliederung\l- Rinde + Mark\l- Hassall-Körperchen\l- adult: viele Fettzellen\l- Epithelzellen\l- dünne BG-Kapsel\l }"];
+	o_malt [label="{MALT/GALT|- Organ: Darmrohr\l- z.B. Folliculi lymphatici solitarii\l- z.B. Peyer-Platten\l- z.B. Appendix vermiformis\l}"];
+	o_milz [label="{MILZ|- BG-Trabekel\l- Trabekelarterien\l- Weiße & Rote Pulpa\l- KEINE HEV\l- Erythrozyten frei im Gewebe\l- Follikel = Malpighi-Körperchen überall\l- Zentralarterien mit PALS\l}"];
+	o_lymphknoten [label="{LYMPHKNOTEN|- Rand- & Marksinus\l- Markstränge\l- HEV\l- mehrere Vasa afferentia (+Klappen)\l- 1 Vas efferens\l- BG-Trabekel\l- KEINE freien Erythrozyten\l- Follikel nur in der Rinde\l}"];
+	o_tonsillaPharyngealis [label="{TONSILLA PHARYNGEALIS|- Epithelbuchten\l- Becherzellen im Epithel\l- BG-Septierung/Trabekel\l- gemischte Drüsen\l}"];
+	o_tonsillaLingualis [label="{TONSILLA LINGUALIS|- keine Trabekel\l- muköse Drüsen\l- Zungenmuskulatur (quergestreift)\l}"];
+	o_tonsillaPalatina [label="{TONSILLA PALATINA|- ausgeprägte Septierung\l- muköse Drüsen\l}"];
+	
+	
+	/* yes */
+	edge [ label="ja"];
+	c_follikel	-> c_kapsel;
+	c_kapsel	-> c_epithelDa;
+	c_epithelDa	-> c_epitheltyp;
+	c_rindeMark	-> o_lymphknoten;	
+
+	/* no */
+	edge [ label="nein"];
+	c_follikel	-> o_thymus;
+	c_kapsel	-> o_malt;
+	c_epithelDa	-> c_rindeMark;
+	c_rindeMark	-> o_milz;
+
+	/* other */
+	c_epitheltyp	-> c_krypten [label = "Mundschleimhaut"];
+	c_epitheltyp	-> o_tonsillaPharyngealis [label = "respiratorisch"];
+	c_krypten	-> o_tonsillaLingualis [label = "kaum ausgeprägt"];
+	c_krypten	-> o_tonsillaPalatina [label = "sehr tief" ];	
+
+	/* graph title */
+/*	label = "Differentialdiagnose Lymphatische Organe";
+	labelloc = top;
+	labeljust = center;*/
+
+}

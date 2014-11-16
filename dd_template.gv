@@ -1,0 +1,33 @@
+/* Compile: dot -Tpdf -o filename.pdf filename.gv */
+/* Force A4: pdfjam -o filename.pdf --landscape --a4paper filename.pdf */
+
+digraph D {
+	/* general settings */
+	graph [fontname="Latin Modern Mono", size="11.69,8.26"];
+	node  [fontname="Latin Modern Mono"];
+	edge [fontname="Latin Modern Mono"];
+	/* Hack for approximate A4 paper output */
+	ratio = fill;
+	size = "11.7,8.3";
+
+	/* CC Notice */
+	node [shape = record]
+	ccnotice [label="{DIFFERENTIALDIAGNOSE |cc-by-sa L. Sandig 2014\nhttp://lsandig.org}"];
+
+	/* criteria */	
+	node [shape=diamond];
+	/* c_crit [label = "Text here"]; */
+
+	/* organs */
+	node [shape=record];
+	/* o_organ [label="{Name |- fact\l- fact\l- fact\l}"]; */
+	
+	/* yes */
+	edge [ label="ja"];
+
+	/* no */
+	edge [ label="nein"];
+
+	/* other */
+	/* foo -> bar [label = "baz"]; */
+}
